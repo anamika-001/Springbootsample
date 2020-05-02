@@ -31,28 +31,55 @@ public class EmployeeController {
 		return employeeRepository.findAll();
 	}
 	
+//	@GetMapping("/employees/{id}")
+//	public ResponseEntity<Employee>getEmployeeById(@PathVariable(value="id") Long employeeId)
+//	     throws ResourceNotFoundException{
+//		Employee employee = employeeRepository.findById(employeeId).orElseThrow(()->new ResourceNotFoundException("Id Not Found"+employeeId));
+//		
+//		return ResponseEntity.ok().body(employee);
+//	}
+//	
+//	@PostMapping("/employees")
+//	public Employee createEmployee(@Valid @RequestBody Employee employee) {
+//		return employeeRepository.save(employee);
+//	}
+//
+//	@PutMapping("/employees/{id}")
+//	public ResponseEntity<Employee>updateEmployee(@PathVariable(value="id") Long employeeId,
+//	@Valid @RequestBody Employee emp)
+//    throws ResourceNotFoundException{
+//    	Employee employee =employeeRepository.findById(employeeId).orElseThrow(()->new ResourceNotFoundException("Id Not Found"+employeeId));
+//    	employee.setEmailId(emp.getEmailId());
+//		employee.setFirstName(emp.getFirstName());
+//		employee.setLastName(emp.getLastName());
+//		final Employee updateEmployee= employeeRepository.save(employee);
+//    	return ResponseEntity.ok(updateEmployee);
+//    }
 	@GetMapping("/employees/{id}")
 	public ResponseEntity<Employee>getEmployeeById(@PathVariable(value="id") Long employeeId)
-	     throws ResourceNotFoundException{
-		Employee employee = employeeRepository.findById(employeeId).orElseThrow(()->new ResourceNotFoundException("Id Not Found"+employeeId));
-		
+	throws ResourceNotFoundException{
+		Employee employee= employeeRepository.findById(employeeId)
+				.orElseThrow(() -> new ResourceNotFoundException("Id Not Found " + employeeId));
 		return ResponseEntity.ok().body(employee);
-	}
+	}		
+	
 	
 	@PostMapping("/employees")
 	public Employee createEmployee(@Valid @RequestBody Employee employee) {
 		return employeeRepository.save(employee);
 	}
-
+	
+	
 	@PutMapping("/employees/{id}")
 	public ResponseEntity<Employee>updateEmployee(@PathVariable(value="id") Long employeeId,
-	@Valid @RequestBody Employee emp)
-    throws ResourceNotFoundException{
-    	Employee employee =employeeRepository.findById(employeeId).orElseThrow(()->new ResourceNotFoundException("Id Not Found"+employeeId));
-    	employee.setEmailId(emp.getEmailId());
+			@Valid @RequestBody Employee emp)
+			throws ResourceNotFoundException{
+				Employee employee= employeeRepository.findById(employeeId)
+						.orElseThrow(() -> new ResourceNotFoundException("Id Not Find " + employeeId));
+		employee.setEmailId(emp.getEmailId());
 		employee.setFirstName(emp.getFirstName());
 		employee.setLastName(emp.getLastName());
 		final Employee updateEmployee= employeeRepository.save(employee);
-    	return ResponseEntity.ok(updateEmployee);
-    }
+		return ResponseEntity.ok(updateEmployee);
+	}
 }
